@@ -25,9 +25,8 @@
       }
 
       .page {
-        width: 100%;
-        max-width: 720px;
-        padding: 24px;
+        width: 425px;
+        margin-top: 312px;
       }
 
       .card {
@@ -36,7 +35,7 @@
         border-radius: 20px;
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14);
         backdrop-filter: blur(16px);
-        padding: 24px;
+        padding: 8px 24px;
       }
 
       .title {
@@ -54,6 +53,10 @@
       .actions {
         display: flex;
         justify-content: center;
+      }
+
+      .actions button {
+        margin: 16px;
       }
 
       .field {
@@ -142,7 +145,7 @@
             </div>
           </div>
           <div class="actions">
-            <button type="submit">Search</button>
+            <button id="search-button" type="submit">Search</button>
             <button id="clear-results" type="button">Clear Results</button>
           </div>
         </form>
@@ -219,8 +222,10 @@
 
         const city = document.getElementById('city').value.trim();
         const state = document.getElementById('state').value.trim();
+        const searchButton = document.getElementById('search-button');
         const resultsBox = document.getElementById('results');
         const errorBox = document.getElementById('error');
+        const defaultSearchButtonLabel = 'Search';
 
         resultsBox.style.display = 'none';
         errorBox.style.display = 'none';
@@ -232,6 +237,9 @@
         }
 
         try {
+          searchButton.textContent = 'Searching...';
+          searchButton.disabled = true;
+
           const coordinates = await geocodeCityState(city, state);
           const places = await searchFood(coordinates.latitude, coordinates.longitude);
 
@@ -254,6 +262,9 @@
         } catch (error) {
           errorBox.textContent = error.message || 'An error occurred';
           errorBox.style.display = 'block';
+        } finally {
+          searchButton.textContent = defaultSearchButtonLabel;
+          searchButton.disabled = false;
         }
       });
     </script>
