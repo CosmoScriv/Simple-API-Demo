@@ -51,6 +51,11 @@
         margin-bottom: 12px;
       }
 
+      .actions {
+        display: flex;
+        justify-content: center;
+      }
+
       .field {
         flex: 1;
       }
@@ -136,7 +141,10 @@
               <input id="state" name="state" type="text" value="NY" placeholder="State" />
             </div>
           </div>
-          <button type="submit">Search</button>
+          <div class="actions">
+            <button type="submit">Search</button>
+            <button id="clear-results" type="button">Clear Results</button>
+          </div>
         </form>
 
         <div id="results" class="results" style="display:none"></div>
@@ -193,6 +201,18 @@
         const result = await response.json();
         return (result.elements || []).slice(0, 4);
       }
+
+      function clearResults() {
+        const resultsBox = document.getElementById('results');
+        const errorBox = document.getElementById('error');
+
+        resultsBox.innerHTML = '';
+        resultsBox.style.display = 'none';
+        errorBox.textContent = '';
+        errorBox.style.display = 'none';
+      }
+
+      document.getElementById('clear-results').addEventListener('click', clearResults);
 
       document.getElementById('search-form').addEventListener('submit', async function (event) {
         event.preventDefault();
