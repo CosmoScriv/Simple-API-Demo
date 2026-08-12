@@ -55,7 +55,5 @@ When the user selects Search call for data using TypeScript or JavaScript
 Display Restaurants
 
 ## Reference
-https://github.com/CosmoScriv/my-nextjs-site/blame/main/src/app/page.tsx
-https://github.com/CosmoScriv/my-nextjs-site/blob/main/OUTLINE.md#finding-apis
+https://github.com/CosmoScriv/Simple-API-Demo/tree/main
 https://docs.google.com/presentation/d/1NvkiWIwNg-tduvAnhvhWXsrpxvw5H8JOGuMo3eIriEc/edit?pli=1&slide=id.g3f61161615c_0_0#slide=id.g3f61161615c_0_0
-
