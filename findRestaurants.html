@@ -59,6 +59,11 @@
         margin: 16px;
       }
 
+      button:disabled {
+        opacity: 0.7;
+        cursor: wait;
+      }
+
       .field {
         flex: 1;
       }
@@ -156,6 +161,8 @@
     </div>
 
     <script>
+      let searchInProgress = false;
+
       async function geocodeCityState(city, state) {
         const query = `${city}, ${state}`;
         const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=jsonv2&limit=1`;
@@ -223,9 +230,16 @@
         const city = document.getElementById('city').value.trim();
         const state = document.getElementById('state').value.trim();
         const searchButton = document.getElementById('search-button');
+        const clearButton = document.getElementById('clear-results');
+        const cityInput = document.getElementById('city');
+        const stateInput = document.getElementById('state');
         const resultsBox = document.getElementById('results');
         const errorBox = document.getElementById('error');
         const defaultSearchButtonLabel = 'Search';
+
+        if (searchInProgress) {
+          return;
+        }
 
         resultsBox.style.display = 'none';
         errorBox.style.display = 'none';
@@ -237,8 +251,12 @@
         }
 
         try {
+          searchInProgress = true;
           searchButton.textContent = 'Searching...';
           searchButton.disabled = true;
+          clearButton.disabled = true;
+          cityInput.disabled = true;
+          stateInput.disabled = true;
 
           const coordinates = await geocodeCityState(city, state);
           const places = await searchFood(coordinates.latitude, coordinates.longitude);
@@ -263,8 +281,12 @@
           errorBox.textContent = error.message || 'An error occurred';
           errorBox.style.display = 'block';
         } finally {
+          searchInProgress = false;
           searchButton.textContent = defaultSearchButtonLabel;
           searchButton.disabled = false;
+          clearButton.disabled = false;
+          cityInput.disabled = false;
+          stateInput.disabled = false;
         }
       });
     </script>
